@@ -1,15 +1,85 @@
-Create app Degree Works
-Edit Professors, Students, Subjects
-Allow teachers and students to log in
+# Degree Works App
 
-Implement the semester logic
-IF the date is between Jan 17th until May 07 = spring
-May 8 until September 8 = summer
-Sep 8th until December 16 = fall
-dec  17 until january 16th = winter
-Student = [student profile : they can select term to see all of this {view grades; transcript(generate a pdf version); schedule}]
-Student = [ schedule; submit homework(create an app called homework where teachers submit a file and students fill out the file and submit it, and only these teachers can see it)]
+## Features
+1. User Management
+   - Edit and manage profiles for Professors, Students, and Staff
+   - Allow teachers, students, and staff to log in with secure authentication
+2. Semester Management
+   - Implement semester logic
+     - Spring: January 17th - May 7th
+     - Summer: May 8th - September 8th
+     - Fall: September 8th - December 16th
+     - Winter: December 17th - January 16th
+   - Display current semester and upcoming semesters
+3. Course Management
+   - Create, edit, and delete courses
+   - Assign professors to courses
+   - Set course schedules and room assignments
+4. Enrollment Management
+   - Allow students to enroll in courses
+   - Manage course capacities and waitlists
+   - Generate student schedules
 
+## Student Portal
+1. Profile
+   - View and edit personal information
+   - Update contact details and emergency contacts
+2. Academics
+   - View grades for each course
+   - Access course materials and assignments
+   - Communicate with professors and classmates
+3. Major Requirements
+   - Display a list of requirements for each major
+   - Track student progress towards fulfilling major requirements
+4. Transcript
+   - Generate unofficial and official transcripts
+   - Allow students to request official transcripts
+5. Schedule
+   - View class schedule for the current and upcoming semesters
+   - Add and drop courses (within the designated period)
 
+## Faculty Portal
+1. Profile
+   - View and edit personal information
+   - Update contact details and office hours
+2. Course Management
+   - View assigned courses
+   - Access course rosters and student information
+   - Post course materials, assignments, and announcements
+3. Grading
+   - Enter and manage student grades
+   - Submit final grades
 
-Front End - (Start when Backend is Done)
+## Homework App
+1. Assignment Submission
+   - Teachers create and submit assignments
+   - Students access, complete, and submit assignments
+2. Grading
+   - Teachers view and grade submitted assignments
+   - Students can view their grades and feedback
+
+## Campus Resources
+1. Library
+   - Search for books, articles, and other resources
+   - View library hours and locations
+   - Reserve study rooms
+2. Campus Events
+   - Browse and RSVP for upcoming events
+   - View event calendars and details
+3. Campus Map
+   - Interactive campus map with building locations and directions
+
+## Development Stages
+1. Backend Development
+   - Design database schema
+   - Implement user authentication and authorization
+   - Develop APIs for data management and communication
+2. Frontend Development
+   - Create user interfaces for student, faculty, and staff portals
+   - Implement interactive features and data visualization
+   - Ensure responsive design for mobile and desktop devices
+3. Testing and Deployment
+   - Conduct thorough testing of all features and functionalities
+   - Address any bugs or performance issues
+   - Deploy the application to a production environment
+

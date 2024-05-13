@@ -1,0 +1,85 @@
+
+degree_works_project/
+    ├── core/
+    │   ├── __init__.py
+    │   ├── settings.py
+    │   ├── urls.py
+    │   └── wsgi.py
+    ├── users/
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── models.py
+    │   ├── views.py
+    │   └── urls.py
+    ├── courses/
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── models.py
+    │   ├── views.py
+    │   └── urls.py
+    ├── students/
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── models.py
+    │   ├── views.py
+    │   └── urls.py
+    ├── faculty/
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── models.py
+    │   ├── views.py
+    │   └── urls.py
+    ├── homework/
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── models.py
+    │   ├── views.py
+    │   └── urls.py
+    ├── campus_resources/
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── models.py
+    │   ├── views.py
+    │   └── urls.py
+    ├── templates/
+    │   ├── base.html
+    │   ├── index.html
+    │   └── ...
+    ├── static/
+    │   ├── css/
+    │   ├── js/
+    │   └── images/
+    ├── manage.py
+    └── requirements.txt
+```
+
+In this project structure:
+
+1. The `core` app contains the project-level settings, root URL configuration, and WSGI application.
+
+2. The `users` app handles user management, including authentication, registration, and user profiles.
+
+3. The `courses` app manages courses, including course creation, editing, and assignment of professors to courses.
+
+4. The `students` app handles student-related functionality, such as student profiles, major requirements, transcripts, and schedules.
+
+5. The `faculty` app deals with faculty-related features, including faculty profiles, course management, and grading.
+
+6. The `homework` app handles the homework submission and grading system.
+
+7. The `campus_resources` app manages campus-related resources, such as the library, events, and campus map.
+
+8. The `templates` directory contains the HTML templates for the project, with a `base.html` file serving as the base template.
+
+9. The `static` directory holds static files like CSS, JavaScript, and images.
+
+10. The `manage.py` file is the command-line utility for administrative tasks.
+
+11. The `requirements.txt` file lists the project dependencies.
+
