@@ -1,0 +1,15 @@
+Create app Degree Works
+Edit Professors, Students, Subjects
+Allow teachers and students to log in
+
+Implement the semester logic
+IF the date is between Jan 17th until May 07 = spring
+May 8 until September 8 = summer
+Sep 8th until December 16 = fall
+dec  17 until january 16th = winter
+Student = [student profile : they can select term to see all of this {view grades; transcript(generate a pdf version); schedule}]
+Student = [ schedule; submit homework(create an app called homework where teachers submit a file and students fill out the file and submit it, and only these teachers can see it)]
+
+
+
+Front End - (Start when Backend is Done)
