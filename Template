@@ -19,20 +19,6 @@ degree_works_project/
     │   ├── models.py
     │   ├── views.py
     │   └── urls.py
-    ├── students/
-    │   ├── __init__.py
-    │   ├── admin.py
-    │   ├── apps.py
-    │   ├── models.py
-    │   ├── views.py
-    │   └── urls.py
-    ├── faculty/
-    │   ├── __init__.py
-    │   ├── admin.py
-    │   ├── apps.py
-    │   ├── models.py
-    │   ├── views.py
-    │   └── urls.py
     ├── homework/
     │   ├── __init__.py
     │   ├── admin.py
@@ -82,4 +68,3 @@ In this project structure:
 10. The `manage.py` file is the command-line utility for administrative tasks.
 
 11. The `requirements.txt` file lists the project dependencies.
-
