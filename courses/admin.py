@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Major, Minor, Department
+from .models import *
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
@@ -32,3 +32,8 @@ class MinorAdmin(admin.ModelAdmin):
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'code', 'chairperson')
     search_fields = ('name', 'code', 'description')
+
+@admin.register(Attribute)
+class AttributeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'code_name')
+    search_fields = ('name','code_name')

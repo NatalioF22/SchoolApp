@@ -1,0 +1,48 @@
+
+{% extends "base.html" %}
+	
+{% block content %}	
+{% load static %}
+			<!-- Start popular-courses Area --> 
+			<section class="popular-courses-area section-gap courses-page">
+				<div class="container">
+					<div class="row d-flex justify-content-center">
+						<div class="menu-content pb-70 col-lg-8">
+							<div class="title text-center">
+								<h1 class="mb-10">Popular Courses we offer</h1>
+								<p>There is a moment in the life of any aspiring.</p>
+							</div>
+						</div>
+					</div>						
+					<div class="row">
+						{% for major in majors_list %}
+						<div class="single-popular-carusel col-lg-3 col-md-6">
+						  <div class="thumb-wrap relative">
+							<div class="thumb relative">
+							  <div class="overlay overlay-bg"></div>
+							  {% if major.image %}
+								<img class="img-fluid" src="{{ major.image.url }}" alt="{{ major.name }}">
+							  {% else %}
+								<img class="img-fluid" src="{% static 'default/default_image.png' %}" alt="Default Image">
+								
+							  {% endif %}
+							</div>
+							<div class="meta d-flex justify-content-between">
+							  <p><span class="lnr lnr-users"></span> {{ major.student_set.count }} <span class="lnr lnr-bubble"></span>35</p>
+							  <h4>{{ major.minimum_credits }} credits</h4>
+							</div>
+						  </div>
+						  <div class="details">
+							<a href="">
+							  <h4>{{ major.name }}</h4>
+							</a>
+							<p>{{ major.description|truncatewords:20 }}</p>
+						  </div>
+						</div>
+						{% endfor %}
+					  </div>
+				</div>	
+			</section>
+			<!-- End popular-courses Area -->			
+
+{% endblock %}

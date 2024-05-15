@@ -33,6 +33,13 @@ degree_works_project/
     │   ├── models.py
     │   ├── views.py
     │   └── urls.py
+     ├── admissions/
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── models.py
+    │   ├── views.py
+    │   └── urls.py
     ├── templates/
     │   ├── base.html
     │   ├── index.html

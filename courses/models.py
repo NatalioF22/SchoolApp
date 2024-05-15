@@ -1,11 +1,13 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+import random
 
 class Department(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=10, unique=True)
     chairperson = models.ForeignKey('users.Professor', on_delete=models.SET_NULL, null=True, blank=True, related_name='department_chaired')
-
+    description  =  models.CharField(max_length=10, blank=True, null=True)
+    
     def __str__(self):
         return self.name
 
@@ -26,17 +28,38 @@ class Department(models.Model):
         if self.chairperson and self.chairperson.title != 'CHAIR':
             raise ValidationError("Only professors with the title 'Chairman' can be assigned as the chairperson.")
 
+class Attribute(models.Model):
+    code_name = models.CharField(max_length=10, default='', blank=True)
+    name = models.CharField(max_length=100, null=True, blank=True, default="")
+
+    def __str__(self):
+        return self.name
+
 class Course(models.Model):
-    code = models.CharField(max_length=10, unique=True)
+    code = models.CharField(max_length=6, unique=True, editable=False)
     name = models.CharField(max_length=100)
     description = models.TextField()
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     credits = models.IntegerField()
     prerequisites = models.ManyToManyField('self', symmetrical=False, blank=True)
     is_active = models.BooleanField(default=True)
+    attributes = models.ManyToManyField('Attribute', blank=True)
 
     def __str__(self):
         return f"{self.code} - {self.name}"
+
+    def save(self, *args, **kwargs):
+        if not self.code:
+            self.code = self.generate_unique_code()
+        super().save(*args, **kwargs)
+
+    @staticmethod
+    def generate_unique_code():
+        digits = '0123456789'
+        while True:
+            code = ''.join(random.choice(digits) for _ in range(6))
+            if not Course.objects.filter(code=code).exists():
+                return code
 
 class Major(models.Model):
     name = models.CharField(max_length=100)
@@ -51,7 +74,10 @@ class Major(models.Model):
     core_distribution = models.ManyToManyField(Course, related_name='majors_core_distribution')
     core_additional_distribution = models.ManyToManyField(Course, related_name='majors_core_additional_distribution')
     program_requirements = models.ManyToManyField(Course, related_name='majors_program_requirements')
+    image = models.ImageField(upload_to='major_images/', blank=True, null=True)
 
+    attribute_requirements = models.ManyToManyField(Attribute, through='MajorAttributeRequirement')
+    
     def __str__(self):
         return self.name
 
@@ -86,12 +112,19 @@ class Major(models.Model):
             return True
         return False
 
+    def clean(self):
+        # Check if the attribute requirements are met by the required courses
+        for attr_req in self.majorattributerequirement_set.all():
+            if not self.required_courses.filter(attributes=attr_req.attribute).exists():
+                raise ValidationError(f"The attribute '{attr_req.attribute.name}' is not present in any of the required courses for the major '{self.name}'.")
+
 class Minor(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=10, unique=True) 
     description = models.TextField()
     minimum_credits = models.IntegerField(default=18)
     required_courses = models.ManyToManyField(Course, related_name='minors_required')
+    image = models.ImageField(upload_to='minor_images/', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -108,3 +141,16 @@ class Minor(models.Model):
         if required_courses_taken.count() == self.required_courses.count():
             return True
         return False
+
+class MajorAttributeRequirement(models.Model):
+    major = models.ForeignKey(Major, on_delete=models.CASCADE)
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
+    required_count = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.major.name} - {self.attribute.name} ({self.required_count})"
+
+    def clean(self):
+        # Check if the attribute is present in any of the major's required courses
+        if not self.major.required_courses.filter(attributes=self.attribute).exists():
+            raise ValidationError(f"The attribute '{self.attribute.name}' is not present in any of the required courses for the major '{self.major.name}'.")
