@@ -49,6 +49,8 @@ class CourseOutlineAdmin(admin.ModelAdmin):
     search_fields = ('title', 'department__name')
     list_filter = ('department', 'created_by', 'created_at')
 
+    
+
 @admin.register(DepartmentComment)
 class DepartmentCommentAdmin(admin.ModelAdmin):
     list_display = ('user', 'department', 'created_at')

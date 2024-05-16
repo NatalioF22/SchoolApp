@@ -116,4 +116,4 @@ class Professor(Person):
         return f"{self.first_name[0]}.{self.last_name}@faculty.school.edu"
 
     def get_full_name(self):
-        return f"{self.title} {self.first_name} {self.last_name}"
+        return f"{self.first_name} {self.last_name}"
