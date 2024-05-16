@@ -36,11 +36,11 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('author', 'post', 'created_at', 'approved')
-    list_filter = ('approved',)
-    search_fields = ('author', 'content')
+    list_display = ('author', 'post', 'date_published', 'is_approved')
+    list_filter = ('is_approved', 'post')
+    search_fields = ('author__user__first_name', 'author__user__last_name', 'content')
     actions = ['approve_comments']
 
     def approve_comments(self, request, queryset):
-        queryset.update(approved=True)
+        queryset.update(is_approved=True)
     approve_comments.short_description = "Approve selected comments"

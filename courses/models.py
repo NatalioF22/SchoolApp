@@ -39,7 +39,7 @@ class CourseOutline(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='course_outlines')
     title = models.CharField(max_length=100)
     content = models.TextField()
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_outlines')
+    created_by = models.ForeignKey('users.Person', on_delete=models.CASCADE, related_name='created_outlines')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -48,27 +48,25 @@ class CourseOutline(models.Model):
 
 class DepartmentComment(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='comments')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='department_comments')
+    user = models.ForeignKey('users.Person', on_delete=models.CASCADE, related_name='department_comments')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.department.name}"
+        return f"{self.user.first_name}  {self.user.last_name} - {self.department.name}"
 
 
 class DepartmentReview(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='reviews')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='department_reviews')
+    user = models.ForeignKey('users.Person', on_delete=models.CASCADE, related_name='department_reviews')
     rating = models.IntegerField(default=0)
     comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.department.name}"
+        return f"{self.user.first_name}  {self.user.last_name} - {self.department.name}"
 
-    def clean(self):
-        if self.chairperson and self.chairperson.title != 'CHAIR':
-            raise ValidationError("Only professors with the title 'Chairman' can be assigned as the chairperson.")
+
 
 class Attribute(models.Model):
     code_name = models.CharField(max_length=10, default='', blank=True)

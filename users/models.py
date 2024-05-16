@@ -7,6 +7,7 @@ from datetime import date
 
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True,blank=True)
+    profile_pic = models.ImageField(upload_to='media/', null=True, blank=True, default="default/default_image.png")
     first_name = models.CharField(max_length=30, null=True,blank=True)
     last_name = models.CharField(max_length=30, null=True,blank=True)
     phone_number = models.CharField(max_length=20, null=True,blank=True)

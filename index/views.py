@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Avg
 from courses.models import *
 from campus_resources.models import Event
 from django.shortcuts import render, redirect, get_object_or_404
@@ -26,6 +27,27 @@ def event_details(request, pk):
     event = get_object_or_404(Event, id=pk)
     return render(request, "event-details.html", {'event':event})
 
+
+
 def department_details(request, pk):
-    department = get_object_or_404(Department, id=pk)
-    return render(request, "department_details.html", {'department': department})
+    department = get_object_or_404(Department, pk=pk)
+    reviews = department.reviews.all()
+    
+    # Calculate the average rating manually
+    total_rating = sum(review.rating for review in reviews)
+    num_reviews = reviews.count()
+    if num_reviews > 0:
+        avg_rating = total_rating / num_reviews
+    else:
+        avg_rating = 0
+
+    for review in reviews:
+        review.star_range = range(review.rating)
+        review.empty_star_range = range(5 - review.rating)
+
+    context = {
+        'department': department,
+        'reviews': reviews,
+        'avg_rating': avg_rating,
+    }
+    return render(request, 'department_details.html', context)
