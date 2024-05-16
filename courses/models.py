@@ -1,13 +1,19 @@
+#courses.models.py
 from django.db import models
 from django.core.exceptions import ValidationError
 import random
+from django.contrib.auth.models import User
+
 
 class Department(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=10, unique=True)
+    image = models.ImageField(upload_to='major_images/', blank=True, null=True)
     chairperson = models.ForeignKey('users.Professor', on_delete=models.SET_NULL, null=True, blank=True, related_name='department_chaired')
-    description  =  models.CharField(max_length=10, blank=True, null=True)
-    
+    description = models.TextField(blank=True, null=True)
+    objectives = models.TextField(blank=True, null=True)
+    eligibility = models.TextField(blank=True, null=True)
+
     def __str__(self):
         return self.name
 
@@ -23,6 +29,42 @@ class Department(models.Model):
             majors.extend(course.majors_core.all())
             majors.extend(course.majors_required.all())
         return set(majors)
+
+    def clean(self):
+        if self.chairperson and self.chairperson.title != 'CHAIR':
+            raise ValidationError("Only professors with the title 'Chairman' can be assigned as the chairperson.")
+
+
+class CourseOutline(models.Model):
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='course_outlines')
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_outlines')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.department.name} - {self.title}"
+
+
+class DepartmentComment(models.Model):
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='department_comments')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.department.name}"
+
+
+class DepartmentReview(models.Model):
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='department_reviews')
+    rating = models.IntegerField(default=0)
+    comment = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.department.name}"
 
     def clean(self):
         if self.chairperson and self.chairperson.title != 'CHAIR':
@@ -66,6 +108,7 @@ class Major(models.Model):
     code = models.CharField(max_length=10, unique=True)
     description = models.TextField()
     minimum_credits = models.IntegerField(default=120)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     core_courses = models.ManyToManyField(Course, related_name='majors_core')
     required_courses = models.ManyToManyField(Course, related_name='majors_required')
     core_skills = models.ManyToManyField(Course, related_name='majors_core_skills')
@@ -74,8 +117,6 @@ class Major(models.Model):
     core_distribution = models.ManyToManyField(Course, related_name='majors_core_distribution')
     core_additional_distribution = models.ManyToManyField(Course, related_name='majors_core_additional_distribution')
     program_requirements = models.ManyToManyField(Course, related_name='majors_program_requirements')
-    image = models.ImageField(upload_to='major_images/', blank=True, null=True)
-
     attribute_requirements = models.ManyToManyField(Attribute, through='MajorAttributeRequirement')
     
     def __str__(self):

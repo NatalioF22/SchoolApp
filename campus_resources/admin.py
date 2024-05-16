@@ -43,11 +43,16 @@ class StudentOrganizationAdmin(admin.ModelAdmin):
     search_fields = ('name', 'category')
     list_filter = ('category',)
 
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('address', 'city', 'state')
+    search_fields = ('address', 'city', 'state')
+
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('name', 'date', 'time', 'location', 'organizer')
-    search_fields = ('name', 'location', 'organizer__username')
-    list_filter = ('date',)
+    list_display = ('title', 'start_date', 'end_date', 'organizer', 'location', 'price')
+    search_fields = ('title', 'description', 'organizer__first_name', 'organizer__last_name', 'location__address', 'location__city', 'location__state')
+    list_filter = ('start_date', 'end_date', 'location__state', 'organizer')
 
 @admin.register(Bus)
 class BusAdmin(admin.ModelAdmin):

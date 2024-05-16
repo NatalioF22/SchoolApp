@@ -12,8 +12,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
-    class Met:
-        verbose = 'Categories'
 
 class Post(models.Model):
     title = models.CharField(max_length=200)

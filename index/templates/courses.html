@@ -1,48 +1,61 @@
-
 {% extends "base.html" %}
-	
-{% block content %}	
+    
+{% block content %}
 {% load static %}
-			<!-- Start popular-courses Area --> 
-			<section class="popular-courses-area section-gap courses-page">
-				<div class="container">
-					<div class="row d-flex justify-content-center">
-						<div class="menu-content pb-70 col-lg-8">
-							<div class="title text-center">
-								<h1 class="mb-10">Popular Courses we offer</h1>
-								<p>There is a moment in the life of any aspiring.</p>
-							</div>
-						</div>
-					</div>						
-					<div class="row">
-						{% for major in majors_list %}
-						<div class="single-popular-carusel col-lg-3 col-md-6">
-						  <div class="thumb-wrap relative">
-							<div class="thumb relative">
-							  <div class="overlay overlay-bg"></div>
-							  {% if major.image %}
-								<img class="img-fluid" src="{{ major.image.url }}" alt="{{ major.name }}">
-							  {% else %}
-								<img class="img-fluid" src="{% static 'default/default_image.png' %}" alt="Default Image">
-								
-							  {% endif %}
-							</div>
-							<div class="meta d-flex justify-content-between">
-							  <p><span class="lnr lnr-users"></span> {{ major.student_set.count }} <span class="lnr lnr-bubble"></span>35</p>
-							  <h4>{{ major.minimum_credits }} credits</h4>
-							</div>
-						  </div>
-						  <div class="details">
-							<a href="">
-							  <h4>{{ major.name }}</h4>
-							</a>
-							<p>{{ major.description|truncatewords:20 }}</p>
-						  </div>
-						</div>
-						{% endfor %}
-					  </div>
-				</div>	
-			</section>
-			<!-- End popular-courses Area -->			
-
+<section class="banner-area relative about-banner" id="home">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">Popular Courses</h1>
+                <p class="text-white link-nav"><a href="{% url 'home' %}">Home </a> <span class="lnr lnr-arrow-right"></span> <a href="{% url 'courses_list' %}"> Popular Courses</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
+<section class="popular-courses-area section-gap courses-page">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-70 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">Popular Courses we offer</h1>
+                    <p>There is a moment in the life of any aspiring.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for major in majors_list %}
+            <div class="single-popular-carusel col-lg-3 col-md-6">
+                <div class="thumb-wrap relative">
+                    <div class="thumb relative">
+                        <div class="overlay overlay-bg"></div>
+                        {% if major.department.image %}
+                        <img class="img-fluid" src="{{ major.department.image.url }}" alt="{{ major.name }}">
+                        {% else %}
+                        <img class="img-fluid" src="{% static 'default/default_image.png' %}" alt="Default Image">
+                        {% endif %}
+                    </div>
+                    <div class="meta d-flex justify-content-between">
+                        <p><span class="lnr lnr-users"></span> {{ major.student_set.count }} <span class="lnr lnr-bubble"></span>35</p>
+                        <h4>{{ major.minimum_credits }} credits</h4>
+                    </div>
+                </div>
+                <div class="details">
+                    {% if major.department %}
+                        <a href="{% url 'department_details' major.department.pk %}">
+                            <h4>{{ major.department.name }}</h4>
+                        </a>
+                        <p>{{ major.department.description|truncatewords:20 }}</p>
+                    {% else %}
+                        <h4>{{ major.name }}</h4>
+                        <p>No department information available.</p>
+                    {% endif %}
+                  
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

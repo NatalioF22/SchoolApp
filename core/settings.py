@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'users',
     'campus_resources',
     'admissions',
-    'school_blog'
+    'school_blog',
 ]
 
 MIDDLEWARE = [
